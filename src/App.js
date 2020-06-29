@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import List from "./features/list";
+import AddButton from "./features/add-button";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { listItems: ["two"] };
+  }
+  render() {
+    return (
+      <div className="App">
+        <List
+          items={this.state.listItems}
+          onChange={(value, index) => {
+            const newListItems = [...this.state.listItems];
+            //delete old value and insert new value
+            newListItems.splice(index, 1, value);
+
+            this.setState({
+              listItems: newListItems,
+            });
+          }}
+          onDelete={(index) => {
+            const newListItems = [...this.state.listItems];
+            //delete item from list
+            newListItems.splice(index, 1);
+            this.setState({
+              listItems: newListItems,
+            });
+          }}
+        />
+        <AddButton
+          onClick={() => {
+            const newListItems = [...this.state.listItems];
+            newListItems.push("");
+
+            this.setState({
+              listItems: newListItems,
+            });
+          }}
+        />
+      </div>
+    );
+  }
 }
-
 export default App;
